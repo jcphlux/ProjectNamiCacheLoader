@@ -1,11 +1,7 @@
-﻿Imports HtmlAgilityPack
-Imports System.Web
+﻿Imports System.IO
 Imports System.Net
-Imports System.IO
-Imports System.Configuration.ConfigurationManager
-Imports Microsoft.WindowsAzure
 Imports System.Threading
-Imports System.Linq
+Imports HtmlAgilityPack
 
 Module Module1
     Dim VisitedLinks As New List(Of String)
@@ -109,7 +105,7 @@ Module Module1
             Dim ThisRequest As WebRequest = WebRequest.Create(LinkURL)
             'Add the BypassKey found in App Settings to the User Agent, so we can notify the Blob Cache Front End to always let us through
             CType(ThisRequest, HttpWebRequest).UserAgent &= Space(1) & System.Configuration.ConfigurationManager.AppSettings("ProjectNamiBlobCache.BypassKey")
-            Return ThisRequest.GetResponse
+            Return ThisRequest.GetResponse()
         Catch ex As Exception
             Console.Out.WriteLine("ERROR Get Response - " & ex.Message & ex.StackTrace)
             Return Nothing
@@ -126,6 +122,5 @@ Module Module1
             Return Nothing
         End Try
     End Function
-
 
 End Module
